@@ -118,6 +118,19 @@ sudo systemctl start mongod
 sudo systemctl enable mongod
 ```
 
+```bash
+mongosh
+use workshop_devops
+db.createCollection("users")
+show collections
+db.users.insertMany([
+    { name: "Abdullah al" },
+    { name: "Mubassir" },
+    { name: "Sakin" }
+]);
+db.workshop_devops.find().pretty();
+```
+
 ---
 
 ### 5. Install MySQL
