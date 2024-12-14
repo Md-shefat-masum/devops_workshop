@@ -1,7 +1,5 @@
 # Devops Workshop
 
-Here's a well-structured **Table of Contents** for your README file based on the provided topics:
-
 ---
 
 # Table of Contents
