@@ -370,6 +370,10 @@ jobs:
 ```bash
 sudo apt install htop
 htop
+
+promethes
+node exporter
+https://www.cherryservers.com/blog/install-grafana-ubuntu
 ```
 ---
 
