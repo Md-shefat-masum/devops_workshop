@@ -1,4 +1,67 @@
-# devops_workshop
+# Devops Workshop
+
+Here's a well-structured **Table of Contents** for your README file based on the provided topics:
+
+---
+
+# Table of Contents
+
+1. **Prepare VPS**  
+   1.1 Setting Up the VPS Environment  
+   1.2 Initial Server Configuration  
+
+2. **Install Required Software**  
+   2.1 Install PHP  
+   2.2 Install Node.js  
+   2.3 Install MongoDB  
+   2.4 Install MySQL  
+
+3. **Database Configuration**  
+   3.1 Connect with DB-Weaver  
+   3.2 Verify Database Connections  
+
+4. **Run a Node.js Project**  
+   4.1 Setting Up the Project  
+   4.2 Running the Application  
+
+5. **Create APIs**  
+   5.1 API to Manage Data in MongoDB  
+   5.2 API to Manage Data in MySQL  
+
+6. **Setup Apache**  
+   6.1 Configure Apache for Project Hosting  
+   6.2 Live Testing  
+
+7. **Production Readiness**  
+   7.1 List and Resolve Problems in Production  
+
+8. **Setup CI/CD with GitHub Actions**  
+   8.1 Basic CI/CD Workflow  
+   8.2 Automating Builds and Deployments  
+
+9. **Server Monitoring**  
+   9.1 Tools and Techniques for Monitoring  
+
+10. **Docker Basics**  
+    10.1 Concepts: Image, Container, Volume, Network  
+    10.2 Run Your First Project Through Docker  
+
+11. **Implement Docker Concepts**  
+    11.1 Apply Basic Docker Concepts to Your Project  
+    11.2 Implement Continuous Integration and Deployment (CID)  
+
+12. **Setup Load Balancer**  
+    12.1 Configuring Load Balancing  
+    12.2 Testing Load Distribution  
+
+13. **Docker Container Monitoring**  
+    13.1 Tools and Practices for Monitoring Docker Containers  
+
+14. **Conclusion**  
+    14.1 Summary of Accomplishments  
+    14.2 Next Steps  
+
+---
 
 Here is the step-by-step code for each task:
 
