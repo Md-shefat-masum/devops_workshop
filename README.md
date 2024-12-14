@@ -233,13 +233,13 @@ node server.js
 const express = require('express');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/mydatabase');
+mongoose.connect('mongodb://localhost:27017/workshop_devops');
 
 const app = express();
 app.use(express.json());
 
 const dataSchema = new mongoose.Schema({ name: String });
-const Data = mongoose.model('Data', dataSchema);
+const Data = mongoose.model('User', dataSchema);
 
 app.post('/mongo', async (req, res) => {
     const data = new Data(req.body);
@@ -257,7 +257,7 @@ app.listen(3000);
 ```javascript
 // app.js
 const mysql = require('mysql2/promise');
-mysql.createConnection({ host: 'localhost', user: 'root', password: '12345678', database: 'test' })
+mysql.createConnection({ host: 'localhost', user: 'root', password: '12345678', database: 'workshop_devops' })
     .then(connection => {
         app.post('/mysql', (req, res) => {
             const { name } = req.body;
