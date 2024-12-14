@@ -122,9 +122,14 @@ sudo systemctl enable mongod
 
 ### 5. Install MySQL
 ```bash
-sudo apt install mysql-server -y
-sudo mysql_secure_installation
-mysql -u root -p
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql.service
+```
+```bash
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '12345678';
+exit
 ```
 
 ---
