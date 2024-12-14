@@ -222,7 +222,7 @@ app.listen(3000);
 // app.js
 const mysql = require('mysql2/promise');
 
-const connection = await mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'test' });
+const connection = await mysql.createConnection({ host: 'localhost', user: 'root', password: '12345678', database: 'test' });
 
 app.post('/mysql', async (req, res) => {
     const { name } = req.body;
