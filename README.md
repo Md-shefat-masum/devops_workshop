@@ -131,6 +131,29 @@ sudo mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '12345678';
 exit
 ```
+```
+```bash
+mysql -u your_username -p
+
+SHOW DATABASES;
+
+CREATE DATABASE workshop_devops;
+
+USE workshop_devops;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+INSERT INTO users (name) 
+VALUES 
+  ('Abdullah'),
+  ('Mobassir'),
+  ('Sakin');
+
+SELECT * FROM users;
+```
 
 ---
 
