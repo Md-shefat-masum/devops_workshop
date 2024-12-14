@@ -221,18 +221,33 @@ app.listen(3000);
 ```javascript
 // app.js
 const mysql = require('mysql2/promise');
+mysql.createConnection({ host: 'localhost', user: 'root', password: '12345678', database: 'test' })
+    .then(connection => {
+        app.post('/mysql', (req, res) => {
+            const { name } = req.body;
+            connection.query('INSERT INTO users (name) VALUES (?)', [name])
+                .then(() => {
+                    res.send({ success: true });
+                })
+                .catch(err => {
+                    res.status(500).send({ error: err.message });
+                });
+        });
 
-const connection = await mysql.createConnection({ host: 'localhost', user: 'root', password: '12345678', database: 'test' });
+        app.get('/mysql', (req, res) => {
+            connection.query('SELECT * FROM users')
+                .then(([rows]) => {
+                    res.send(rows);
+                })
+                .catch(err => {
+                    res.status(500).send({ error: err.message });
+                });
+        });
+    })
+    .catch(err => {
+        console.error('Database connection failed:', err.message);
+    });
 
-app.post('/mysql', async (req, res) => {
-    const { name } = req.body;
-    await connection.query('INSERT INTO users (name) VALUES (?)', [name]);
-    res.send({ success: true });
-});
-app.get('/mysql', async (req, res) => {
-    const [rows] = await connection.query('SELECT * FROM users');
-    res.send(rows);
-});
 ```
 
 ---
