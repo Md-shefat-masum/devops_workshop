@@ -174,14 +174,21 @@ SELECT * FROM users;
 ```bash
 # Configure MySQL for remote access
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-# Comment out: bind-address = 127.0.0.1
+bind-address            = 0.0.0.0
 sudo systemctl restart mysql
 
 # Allow remote user
 mysql -u root -p
-GRANT ALL PRIVILEGES ON *.* TO 'remote_user'@'%' IDENTIFIED BY 'password';
+CREATE USER 'remote_user'@'%' IDENTIFIED BY 'DBsql$#%12345678';
+GRANT ALL PRIVILEGES ON *.* TO 'remote_user'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
+```
+restrict access to a specific IP (your local PC's IP)
+```bash
+CREATE USER 'remote_user'@'local-pc-ip' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'remote_user'@'local-pc-ip' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 ```
 
 ---
