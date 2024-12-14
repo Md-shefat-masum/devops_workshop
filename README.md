@@ -151,9 +151,39 @@ EXIT;
 ---
 
 ### 7. Run a Node Project
+
+package.json
+
 ```bash
-git clone <repository_url>
-cd <project_folder>
+{
+  "name": "node-mongo-mysql-project",
+  "version": "1.0.0",
+  "description": "A Node.js project with MongoDB and MySQL integrations",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "mysql",
+    "api"
+  ],
+  "author": "Shefat",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.3.0",
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
+```
+
+```bash
 npm install
 node server.js
 ```
