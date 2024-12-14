@@ -170,11 +170,13 @@ SELECT * FROM users;
 
 ---
 
-### 6. Connect with DB-weaver
+### 6. Connect with work bench and mongodb compass
 ```bash
 # Configure MySQL for remote access
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 bind-address            = 0.0.0.0
+sudo ufw allow 3306
+allowPublicKeyRetrieval = true
 sudo systemctl restart mysql
 
 # Allow remote user
@@ -189,6 +191,12 @@ restrict access to a specific IP (your local PC's IP)
 CREATE USER 'remote_user'@'local-pc-ip' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON *.* TO 'remote_user'@'local-pc-ip' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+```
+mongo DB
+```bash
+sudo nano /etc/mongod.conf
+bindIp:   0.0.0.0
+sudo ufw allow 27017
 ```
 
 ---
