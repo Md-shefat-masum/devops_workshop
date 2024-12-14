@@ -371,7 +371,6 @@ jobs:
 sudo apt install htop
 htop
 ```
-
 ---
 
 ### 13. Docker Basic Concepts
