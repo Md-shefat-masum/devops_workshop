@@ -236,7 +236,7 @@ package.json
 
 ```bash
 npm install
-node server.js
+node app.js
 ```
 
 ---
