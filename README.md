@@ -202,7 +202,7 @@ sudo ufw allow 27017
 ---
 
 ### 7. Run a Node Project
-
+create a directory opend directory into vs code follow the instructions.
 package.json
 
 ```bash
@@ -236,7 +236,6 @@ package.json
 
 ```bash
 npm install
-node app.js
 ```
 
 ---
@@ -266,6 +265,10 @@ app.get('/mongo', async (req, res) => {
     res.send(data);
 });
 app.listen(3000);
+```
+
+```bash
+node app.js
 ```
 
 #### MySQL Example:
