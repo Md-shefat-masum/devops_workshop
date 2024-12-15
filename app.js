@@ -83,8 +83,25 @@ mysql.createConnection({ host: '192.168.0.145', port:'3406', user: 'root', passw
 
 /** scp -i workshop_2_aws_pkey.pem app.zip ubuntu@98.81.55.100:/var/www/node_app */
 
-//  docker run --name basic_node_app_mongo_db_container --network basic_node_app_network -p 28017:27017 -d mongo
+/* 
+-v /mnt/c/Users/mypho/Desktop/basic_node_app/db/mongo:/data/db \
+    docker run --name basic_node_app_mongo_db_container \
+    --network basic_node_app_network \
+    -p 28017:27017 -d mongo
 
-//  docker run --name basic_node_app_mysql_db_container -e MYSQL_ALLOW_EMPTY_PASSWORD=true --network basic_node_app_network -p 3406:3306 -d mysql
+*/
+
+/**
+ * 
+ -v /mnt/c/Users/mypho/Desktop/basic_node_app/db/mysql:/var/lib/mysql \
+
+ docker run --name basic_node_app_mysql_db_container \
+  -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+  --network basic_node_app_network \
+  -p 3406:3306 \
+  -d mysql
+ */
 
 // docker run --name basic_node_app_v2_container_1 --network basic_node_app_network -p 8001:6001 -d basic_node_app:v2
+
+// docker run --name basic_node_app_v3_container_1 --network basic_node_app_network -p 8002:6001 -v /mnt/c/Users/mypho/Desktop/basic_node_app/uploads:/var/www/basic_node_app/uploads -d basic_node_app:v3
