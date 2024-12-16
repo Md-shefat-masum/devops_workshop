@@ -41,7 +41,7 @@
    9.1 Tools and Techniques for Monitoring  
 
 10. **Docker Basics**  
-    10.1 Concepts: Image, Container, Volume, Network  
+    10.1 Concepts: Image, Container, Volume, Network, compose 
     10.2 Run Your First Project Through Docker  
 
 11. **Implement Docker Concepts**  
@@ -71,17 +71,26 @@ sudo apt update && sudo apt upgrade -y
 
 ---
 
-### 2. Install PHP
+### Install nginx
 ```bash
-sudo apt install software-properties-common -y
+sudo apt install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo systemctl status nginx
 ```
+
+### 2. Install PHP
 ```bash
 sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update
 ```
 ```bash
-sudo apt install php7.3 php7.3-cli php7.3-common php7.3-mysql php7.3-xml php7.3-mbstring php7.3-curl php7.3-zip php7.3-bcmath php7.3-json php7.3-intl -y
-php -v
+sudo apt install php8.3 php8.3-fpm php8.3-cli php8.3-mysql php8.3-curl php8.3-mbstring php8.3-xml php8.3-zip php8.3-gd php8.3-soap php8.3-bcmath -y
+```
+```bash
+sudo systemctl start php8.3-fpm
+sudo systemctl enable php8.3-fpm
+sudo systemctl status php8.3-fpm
 ```
 ```bash
 curl -sS https://getcomposer.org/installer | php
@@ -97,7 +106,7 @@ composer --version
 
 ### 3. Install Node.js
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs
 node -v
 npm -v
@@ -345,38 +354,69 @@ Docker helps mitigate these issues by providing containerization, isolation, and
 ---
 
 ### 11. Setup CI/CD with GitHub Actions
-#### .github/workflows/main.yml:
-```yaml
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: npm test
-```
-
----
+https://github.com/Md-shefat-masum/html-hello-project
 
 ### 12. Server Monitoring
 ```bash
 sudo apt install htop
 htop
+```
+docker-compose.yml
+```bash
+version: '3.7'
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
 
-promethes
-node exporter
-https://www.cherryservers.com/blog/install-grafana-ubuntu
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+```
+
+prometheus.yml
+```bash
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['103.191.240.173:9100']
+
 ```
 ---
 
@@ -434,23 +474,126 @@ docker run -d -p 3000:3000 myapp
 ---
 
 ### 15. Implement Basic Concepts
-#### Setup CID:
-```bash
-docker run -d -p 6379:6379 --name redis redis
-```
+#### Setup CICD:
+https://github.com/Md-shefat-masum/html-hello-project
 
 ---
 
 ### 16. Setup Load Balancer
 #### Install Nginx:
+php nginx.conf
 ```bash
-sudo apt install nginx
-sudo nano /etc/nginx/sites-available/load-balancer
-# Add upstream configuration
-sudo ln -s /etc/nginx/sites-available/load-balancer /etc/nginx/sites-enabled/
-sudo systemctl restart nginx
-```
+events {}
 
+http {
+    upstream php_project {
+        server php_app1:9000;
+        server php_app2:9000;
+        server php_app3:9000;
+        server php_app4:9000;
+        server php_app5:9000;
+    }
+
+    server {
+        listen 80;
+        root /var/www/html;
+
+        index index.php;
+
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass php_project;
+            fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;
+            include fastcgi_params;
+        }
+
+        error_log  /var/log/nginx/error.log;
+    }
+}
+
+
+```
+dockerfile
+```
+# Use an official PHP image with FPM (FastCGI Process Manager) support
+FROM php:7.4-fpm
+
+# Install necessary PHP extensions
+RUN apt-get update && apt-get install -y \
+    nginx \
+    && apt-get clean
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Copy the source code into the container
+COPY src/ /var/www/html/
+
+# Expose port 80 for Nginx and 9000 for PHP
+EXPOSE 80 9000
+
+# Start both PHP-FPM and Nginx in the foreground
+CMD service nginx start && php-fpm -F
+```
+docker-compose.yml
+```
+``version: '3.7'
+services:
+  php_app1:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  php_app2:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  php_app3:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  php_app4:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  php_app5:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    expose:
+      - "9000"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php_app1
+      - php_app2
+      - php_app3
+      - php_app4
+      - php_app5
 ---
 
 ### 17. Docker Container Monitoring
