@@ -5,8 +5,10 @@ var bodyParser = require('body-parser');
 const path = require('path');
 const formData = require('express-form-data');
 const fs = require('fs');
+const os = require('os');
+const hostname = os.hostname(); 
 // mongoose.connect('mongodb://98.81.55.100:27017/workshop_devops');
-mongoose.connect('mongodb://192.168.0.145:28017/workshop_devops');
+mongoose.connect('mongodb://103.191.240.173:29017/workshop_devops');
 // mongoose.connect('mongodb://basic_node_app_mongo_db_container:27017/workshop_devops');
 
 const app = express();
@@ -23,7 +25,7 @@ const dataSchema = new mongoose.Schema({ name: String });
 const Data = mongoose.model('User', dataSchema);
 
 app.get('/', async (req, res) => {
-    res.send('Hello World!');
+    res.json(`Hello World ${hostname}!`);
 });
 
 app.post('/mongo', async (req, res) => {
@@ -49,7 +51,7 @@ app.post('/upload', (req, res) => {
 
 // mysql.createConnection({ host: '98.81.55.100', user: 'remote_user', password: 'DBsql$#%12345678', database: 'workshop_devops' })
 // mysql.createConnection({ host: 'basic_node_app_mysql_db_container', user: 'root', password: '', database: 'workshop_devops' })
-mysql.createConnection({ host: '192.168.0.145', port:'3406', user: 'root', password: '', database: 'workshop_devops' })
+mysql.createConnection({ host: '103.191.240.173', port:'3506', user: 'root', password: '', database: 'workshop_devops' })
     .then(connection => {
         app.post('/mysql', (req, res) => {
             const { name } = req.body;
@@ -73,7 +75,7 @@ mysql.createConnection({ host: '192.168.0.145', port:'3406', user: 'root', passw
         });
 
         app.listen(6001, '0.0.0.0', () => {
-            console.log('Server started on port http://98.81.55.100:6001');
+            console.log('Server started on port http://103.191.240.173:6001');
         });
     })
     .catch(err => {

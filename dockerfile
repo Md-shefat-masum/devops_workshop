@@ -3,10 +3,15 @@ FROM node:14
 WORKDIR /var/www/basic_node_app
 
 COPY package.json ./
-RUN npm install
+
+RUN apt-get update \
+    && apt-get install -y nginx \
+    && apt-get clean \
+    && npm install
 
 COPY . .
 
-EXPOSE 6001
+EXPOSE 80 6001
 
-CMD ["node", "app.js"]
+CMD service nginx start \
+    && node app.js
