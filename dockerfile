@@ -29,6 +29,7 @@ RUN php artisan config:cache && php artisan route:cache
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 ./storage ./bootstrap
 
 # Expose port 9000
 EXPOSE 9000

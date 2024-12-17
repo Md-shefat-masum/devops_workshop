@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/host', function () {
+    dd(request()->getHost());
+});
+
 Route::get('/', function () {
     $users = User::orderBy('id', 'desc')->get();
     $user = null;
