@@ -29,4 +29,8 @@ jobs:
           git restore .
           git pull -f origin v8_laravel_loadbalancer
           git status
+          cd ./src
+          npm install
+          npm run build
+          composer install
           docker-compose up --build -d
