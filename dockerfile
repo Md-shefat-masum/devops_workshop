@@ -20,6 +20,7 @@ WORKDIR /var/www/html
 
 # Copy composer and install dependencies
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 COPY ./src .
 
 RUN composer install --no-scripts --no-autoloader
@@ -31,7 +32,7 @@ RUN php artisan config:cache && php artisan route:cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 777 ./storage ./bootstrap
 
-# Expose port 9000
+# Expose port 9000 laravel expose
 EXPOSE 9000
 
 # Start PHP-FPM
