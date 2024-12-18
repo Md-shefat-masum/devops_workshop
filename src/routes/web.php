@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/host', function () {
-    dd(request()->getHost());
+    dd($_SERVER);
 });
 
 Route::get('/', function () {
