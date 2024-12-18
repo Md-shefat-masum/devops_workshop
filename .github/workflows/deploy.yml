@@ -26,5 +26,5 @@ jobs:
         port: 22
         script: |
           cd /var/www/docker_cicd/
-          git pull -f origin main
+          git pull -f origin v8_laravel_loadbalancer
           git status
